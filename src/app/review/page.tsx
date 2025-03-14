@@ -20,13 +20,13 @@ import { SLIDE_LEFT, SLIDE_RIGHT } from "../lib/data";
 const reviews = [
   {
     name: "Andre",
-    image: profile, // Replace with actual path
+    image: profile,
     rating: "1/5",
     text: "Pilotnya kek orang paok.",
   },
   {
     name: "Ipan",
-    image: profile, // Replace with actual path
+    image: profile,
     rating: "2/5",
     text: "Pilotnya jomok.",
   },
