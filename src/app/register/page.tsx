@@ -6,6 +6,7 @@ import mobile from "@/app/assets/register/Background-register-mobile.jpg";
 import tablet from "@/app/assets/register/Background-register-tablet.jpg";
 import desktop from "@/app/assets/register/Background-register-desktop.jpg";
 import PageTitle from "../components/PageTitle";
+import { CalendarIcon } from "@heroicons/react/24/outline";
 import { SLIDE_LEFT, SLIDE_RIGHT } from "../lib/data";
 import MotionDiv from "../components/MotionDiv";
 import Background from "../components/Background";
@@ -14,6 +15,8 @@ const destinations = ["Moon", "Venus", "Mars", "Europa", "Titan"];
 const missions = ["Exploration", "Travel", "Mining", "Colonization"];
 
 const RegisterPage = () => {
+  const [selectedDate, setSelectedDate] = useState("");
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [selectedDestination, setSelectedDestination] = useState(destinations[0]);
   const [selectedMission, setSelectedMission] = useState(missions[0]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -26,6 +29,11 @@ const RegisterPage = () => {
 
   const handleMissionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedMission(e.target.value);
+  };
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedDate(e.target.value);
+    setIsCalendarOpen(false);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -101,6 +109,16 @@ const RegisterPage = () => {
                   ))}
                 </motion.select>
               </AnimatePresence>
+            </div>
+            <div>
+              <label htmlFor="date" className="block font-medium text-white">
+                Departure Date
+              </label>
+              <div className="relative w-full border-gray-300 rounded-md shadow-sm px-3 py-2 text-lg bg-gray-700 text-white cursor-pointer flex items-center" onClick={() => setIsCalendarOpen(!isCalendarOpen)}>
+                <CalendarIcon className="w-6 h-6 text-gray-400 mr-2" />
+                <span>{selectedDate || "Select a date"}</span>
+              </div>
+              {isCalendarOpen && <input type="date" className="w-full mt-2 p-2 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" onChange={handleDateChange} />}
             </div>
             <button type="submit" className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
               Register
