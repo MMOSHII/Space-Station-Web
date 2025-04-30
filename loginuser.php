@@ -1,7 +1,7 @@
 <?php
 require 'function.php';
 
-if(isset($_POST['login-admin'])){
+if(isset($_POST['login-user'])){
     $email = $_POST['email'];
     $password = $_POST['password'];
 
@@ -12,16 +12,16 @@ if(isset($_POST['login-admin'])){
         $hitung= mysqli_num_rows($cekdb);
         if($hitung>0){
             $_SESSION['log'] = 'True';
-            header('location:index.php');
+            //header('location:index.php');
         }
         else{
-            header('location:loginadmin.php');
+            header('location:loginuser.php');
             }
     }
-    if(!isset($_SESSION['login-admin'])){
+    if(!isset($_SESSION['login-user'])){
     }
     else{
-        header('location:index.php');
+        //header('location:index.php');
     }
 ?>
 <!DOCTYPE html>
@@ -33,7 +33,7 @@ if(isset($_POST['login-admin'])){
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Login - SB Admin</title>
+    <title>Login - User</title>
     <link href="css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
@@ -47,7 +47,7 @@ if(isset($_POST['login-admin'])){
                         <div class="col-lg-5">
                             <div class="card shadow-lg border-0 rounded-lg mt-5">
                                 <div class="card-header">
-                                    <h3 class="text-center font-weight-light my-4">Admin Login</h3>
+                                    <h3 class="text-center font-weight-light my-4">User Login</h3>
                                 </div>
                                 <div class="card-body">
                                     <form method="post">
@@ -62,12 +62,12 @@ if(isset($_POST['login-admin'])){
                                             <label for="inputPassword">Password</label>
                                         </div>
                                         <?php
-                                        if(isset($_POST['login-admin'])){
+                                        if(isset($_POST['login-user'])){
                                             $email = $_POST['email'];
                                             $password = $_POST['password'];
 
                                             // Validasi login dari database
-                                            $cekdb = mysqli_query($conn, "SELECT * FROM admin WHERE email='$email' AND password='$password'");
+                                            $cekdb = mysqli_query($conn, "SELECT * FROM user WHERE email='$email' AND password='$password'");
 
                                             // Cek apakah ada data yang cocok
                                             if(mysqli_num_rows($cekdb) <= 0){
@@ -81,10 +81,11 @@ if(isset($_POST['login-admin'])){
                                         }
                                         ?>
                                         <div class="d-flex align-items-center justify-content-center mt-4 mb-0">
-                                            <button class="btn btn-primary" name="login-admin">Login</button>   
+                                            <button class="btn btn-primary" name="login-user">Login</button>   
                                         </div>
                                         <div class="d-flex align-items-center justify-content-center mt-4 mb-0">
-                                            <a href="loginuser.php">Login sebagai User</a>
+                                            <a href="loginadmin.php">Login sebagai Admin</a>
+                                        </div>
                                         </div>
                                     </form>
                                 </div>

@@ -5,7 +5,6 @@ session_start();
 $conn = mysqli_connect("localhost", "root", "", "db_spacestation");
 
 //CREATE - menambah histori
-$errorMessageindex = "";
 if(isset($_POST['addnewhistori'])){
     $user = $_POST['user'];
     $tiket = $_POST['tiket'];
