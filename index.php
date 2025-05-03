@@ -43,7 +43,7 @@ require 'cek.php';
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Revenue Stream
                             </a>
-                            <a class="nav-link" href="logout.php">
+                            <a class="nav-link" href="logoutadmin.php">
                                 Logout
                             </a>
                         </div>
@@ -86,6 +86,7 @@ require 'cek.php';
                                                     p1.nama AS asal_nama,
                                                     p2.id_planet AS tujuan_id,
                                                     p2.nama AS tujuan_nama,
+                                                    h.id_histori,
                                                     h.tanggal, 
                                                     h.pukul  
                                                 FROM histori_booking h
@@ -93,10 +94,12 @@ require 'cek.php';
                                                 JOIN tiket t ON h.id_tiket = t.id_tiket
                                                 JOIN planet p1 ON h.asal = p1.id_planet
                                                 JOIN planet p2 ON h.tujuan = p2.id_planet
+                                                ORDER BY h.tanggal ASC, h.pukul ASC
                                                     ";
 
                                         $getdatastock = mysqli_query($conn, $query);
                                         while($data=mysqli_fetch_array($getdatastock)){
+                                            $id_histori = $data['id_histori'];
                                             $user = $data['email'];
                                             $tiket = $data['kelas'];
                                             $asal = $data['asal_nama'];
@@ -107,51 +110,51 @@ require 'cek.php';
                                             $destinasi = htmlspecialchars($asal).' - '.htmlspecialchars($tujuan);
                                             $pemberangkatan = htmlspecialchars($tanggal).' - '.htmlspecialchars($pukul).' WIB';
                                         ?>
-                                        <>
+                                        <tr>
                                             <td><?=$i++;?></td>
                                             <td><?=htmlspecialchars($user);?></td>
                                             <td><?=htmlspecialchars($tiket);?></td>
                                             <td><?=htmlspecialchars($destinasi);?></td>
                                             <td><?=htmlspecialchars($pemberangkatan);?></td>
                                             <td>
-                                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit">
+                                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit<?=$id_histori;?>">
                                             Edit
                                             </button>
-                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete">
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete<?=$id_histori;?>">
                                             Delete
                                             </button>
 
                                             <!-- Delete Modal -->
-                                        <div class="modal fade" id="delete" >
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
+                                            <div class="modal fade" id="delete<?=$id_histori;?>" >
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
 
-                                                <!-- Modal Header -->
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">Hapus Histori?</h4>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                </div>
+                                                    <!-- Modal Header -->
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Hapus Histori?</h4>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                    </div>
 
-                                                <!-- Modal body -->
-                                                <form method="post">
-                                                <div class="modal-body">
-                                                    <?=$user;?><br>
-                                                    <?=$tiket;?><br>
-                                                    <?=$destinasi;?><br>
-                                                    <?=$pemberangkatan;?><br>
-                                                    <strong>Anda yakin ingin menghapus histori ini?<strong><br><br>
-                                                    <input type="hidden" name="id_histori" value="<?=$id_histori;?>">
-                                                    <button class="btn btn-danger" type="submit" name="deletehistori">Hapus</button>
+                                                    <!-- Modal body -->
+                                                    <form method="post">
+                                                    <div class="modal-body">
+                                                        <?=$user;?><br>
+                                                        <?=$tiket;?><br>
+                                                        <?=$destinasi;?><br>
+                                                        <?=$pemberangkatan;?><br>
+                                                        <strong>Anda yakin ingin menghapus histori ini?<strong><br><br>
+                                                        <input type="hidden" name="id_histori" value="<?=$id_histori;?>">
+                                                        <button class="btn btn-danger" type="submit" name="deletehistori">Hapus</button>
+                                                    </div>
+                                                    </form>
+                                                    </div>
                                                 </div>
-                                                </form>
-                                                </div>
-                                            </div>
 
                                                 </td>     
                                              </tr>    
 
                                             <!-- Edit Modal -->
-                                            <div class="modal fade" id="edit">
+                                            <div class="modal fade" id="edit<?=$id_histori;?>">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
 
@@ -164,13 +167,13 @@ require 'cek.php';
                                                 <!-- Modal body -->
                                                 <form method="post">
                                                 <div class="modal-body">
-                                                    Ada delay pada jadwal : <br>
+                                                    <strong> Ada delay pada jadwal : </strong><br>
                                                     <?=$user;?><br>
                                                     <?=$tiket;?><br>
                                                     <?=$destinasi;?><br>
                                                     <?=$pemberangkatan;?><br><br>
 
-                                                    Edit jadwal disini :
+                                                    <strong>Edit jadwal disini :</strong>
                                                     <input class="form-control" type="date" name="tanggal" value="<?=$tanggal?>" required><br>
                                                     <input class="form-control" type="time" name="pukul" value="<?=$pukul?>" required><br>
                                                     <input type="hidden" name="id_histori" value="<?=$id_histori;?>">
